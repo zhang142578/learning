@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+    <!--<input type="button" @click="toggle">-->
+    <input type="button" @click="flag=!flag">
+    <!--v-if的特点是每次都会删除 创建元素-->
+    <!--v-if有较高的切换性能消耗-->
+    <h3 v-if="flag">这是使用v-if控制的元素</h3>
+    <!--v-show的特点是每次不会进行dom的删除和创建 值是切换display：none的样式-->
+    <!--v-show有较高的初始渲染消耗-->
+    <h3 v-show="flag">这是使用v-show控制的元素</h3>
+
+    <!--如果元素涉及到频繁的切换 最好不要使用v-if-->
+    <!--如果元素可能永远也不会被显示出来给用户看 则不要用v-show-->
+</div>
+</body>
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            flag:true,
+        },
+        methods:{
+            toggle(){
+                this.flag=!this.flag
+            }
+        }
+    })
+</script>
+</html>

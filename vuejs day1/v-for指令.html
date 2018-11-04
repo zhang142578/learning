@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+    <p v-for="(item,index) in list">{{item}} 索引值：{{index}}</p>
+    <p v-for="(user , index) in list2">id:{{user.id}}---名字：{{user.name}}---索引是{{index}}</p>
+    <!--在遍历对象的时候 除了有val，key，在第三个位置还有一个索引-->
+    <p v-for="(value,key,i) in user">值是：{{value }}---键是：{{key}}---索引是：{{i}}</p>
+   <!--v-for迭代数字，in后面放普通数组，对象数组，对象，还可以放数字-->
+    <!--如果使用v-for迭代数字的话，count值是从1开始-->
+    <p v-for="count in 10">这是第{{count}}次循环</p>
+</div>
+</body>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            list:[1,2,3,4,5,6],
+            list2:[
+                {id:1,name:"zs1"},
+                {id:2,name:"zs2"},
+                {id:3,name:"zs3"},
+                {id:4,name:"zs4"}
+            ],
+            user:{
+                id:"1",
+                user:"TONY",
+                gender:'男'
+            }
+        }
+    })
+</script>
+</html>

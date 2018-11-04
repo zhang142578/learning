@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+   <!-- 对象就是一个无序键值对的集合-->
+    <!--第一种 直接传对象-->
+  <!--  <h1 :style="{'color':'red','font-weight':200}">这是一个h1</h1>-->
+    <!--第二种将对象存到data里 然后再传入-->
+    <!--<h1 :style="styleobj">这是一个h1</h1>-->
+    <!--第三种-->
+    <h1 :style="[styleobj,styleobj2]">这是一个h1</h1>
+</div>
+</body>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            styleobj:{'color':'red','font-weight':200},
+            styleobj2:{'font-style':'italic'}
+        }
+    })
+</script>
+</html>

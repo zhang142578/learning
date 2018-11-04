@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+    <input type="button" value="开始" @click="lang">
+    <input type="button" value="结束" @click="end">
+    <h4>{{msg}}</h4>
+</div>
+</body>
+<script>
+    //在vm实例中
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            msg:'12345678',
+            intervalid:null
+        },
+        methods:{
+
+            lang(){
+                if(this.intervalid!=null)return;
+                //箭头函数 解决this指向问题，内部的this指向外部的this
+               this.intervalid=setInterval(() => {
+                   //获取到头 第一个 字符
+                   var start=this.msg.substring(0,1);
+                   //获取到 后面的所有字符
+                   var end=this.msg.substring(1);
+                   //重新拼接得到新的字符串 并赋值给 this.msg
+                   this.msg=end+start;
+                   //：vm实例会监听自己身上date中所有   数据的改变，只要数据一发生改变 就会自动把最新的数据
+                   //data 上 同步到页面上去 【我们只需要关心数据 不需要考虑重新渲染dom界面】
+               },500)
+            }
+            ,
+           end (){
+                clearInterval(this.intervalid);
+                this.intervalid=null;
+            }
+        }
+    })
+    //分析：
+    //1.给【开始】按钮绑定一个点击事件 v-on @
+    //2.在按钮的事件处理函数中，写相关的业务逻辑代码 ：拿到msg字符串，然后调用字符串的substring方法
+    //来进行字符串的截取操作，把第一个字符截取出来放到最后一个位置即可
+    //3.为了实现点击下按钮 自动截取的功能， 要把步骤2的方法放到一个定时器中去；
+</script>
+</html>

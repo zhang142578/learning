@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+   <!--v-on事件绑定机制-->
+   <!-- <input value="button" type="button" v-on:click="alert('hello');">-->
+    <input type="button" v-on:click="show">;
+    <!--<h1>{{html}}</h1>
+    <h1>{{msg}}</h1>
+    <h1 v-html="msg"></h1>
+    <h1 v-text="msg"></h1>
+    <h1 v-html="html"></h1>-->
+</div>
+</body>
+<script>
+    var vue=new Vue({
+        el:"#app",
+        data:{
+            msg:"vue",
+            html:"<span>new vue</span>",
+            msg2:"mytitle"
+        },
+        methods:{//methods中定义了当前vue实例所有可用的方法
+            show:function(){
+                alert('hello');
+            }
+        }
+    })
+</script>
+</html>

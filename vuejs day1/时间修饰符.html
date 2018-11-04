@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .inner{
+            height:150px;
+            background-color: darkcyan;
+
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+   <!--使用 .capture 实现捕获机制触发事件-->
+    <!--<div class="inner" @click.capture="div1handler">-->
+      <!--.stop修饰符用来阻止冒泡-->
+        <!--<input type="button" value="戳它" @click.stop="btnhandler">-->
+      <!--  <a href="http://www.baidu.com" @click.prevent="linkbaidu">去百度</a>-->
+       <!-- <input type="button" value="戳" @click="btnhandler">
+    </div>-->
+   <!--使用.self实现只有点击当前元素的时候才会触发事件处理函数机制-->
+    <!--<div class="inner" @click.self="div1handler">
+        <input type="button" value="戳" @click="btnhandler">
+    </div>-->
+    <!-- .once 只执行一次-->
+    <!-- .prevent 和 .once 一起使用 只会阻止一次默认行为-->
+    <!--<a href="http://www.baidu.com" @click.once="linkbaidu">去百度</a>-->
+    <!--.stop 和 .self 的区别 stop 会停止所有的事件冒泡 .self只会停止自己的事件冒泡
+    更上层的事件冒泡却没有办法阻止-->
+</div>
+</body>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+
+        },
+        methods:{
+            div1handler(){
+                console.log("这是 div 的 点击事件")
+            },
+            btnhandler(){
+                console.log("这是 btn 的 点击事件")
+            },
+            linkbaidu(){
+                console.log("触发了链接的点击事件")
+            }
+        }
+    })
+</script>
+</html>
