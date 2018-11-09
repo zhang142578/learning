@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加品牌</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <label for="">
+                id:
+                <input type="text" class="form-control" v-model="id">
+            </label>
+            <label for="">
+                Name:
+                <input class="form-control" type="text" v-model="name">
+            </label>
+            <input type="button" value="添加" class="btn btn-primary" @click="add">
+            <label for="">
+                搜索名称关键字：
+                <input class="form-control" placeholder="搜索名称关键字" type="text" v-model="keywords">
+            </label>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Ctime</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--之前 v-for中的数据，都是从data上的list中直接渲染过来的-->
+        <!--现在， 我们自定义一个search方法，同时，把所有的关键字，通过传参的形式，传递给了
+        search方法-->
+        <!--在search方法内部，通过执行 for 循环 把所有符合 搜索关键字，通过传参的方式
+        保存到一个新的数组中 返回，-->
+        <tr v-for="item in search(keywords)" :key="item.id" >
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.ctime}}</td>
+            <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script>
+    var vm=new Vue({
+        el: '#app',
+        data: {
+            name: '',
+            id: '',
+            keywords: '',
+            list: [
+                {id: 1, name: "奔驰", ctime: new Date()},
+                {id: 2, name: "宝马", ctime: new Date()}
+            ]
+        },
+        methods: {
+            add() {
+                //分析：
+                //1.要获取到id和name，直接从date上获取
+                //2.组织出一个对象
+                //3.把这对象，调用数组的相关方法 添加到当前data上的list中
+                //4.注意：在vue中已经实现 了数据的双向绑定，每当我们修改了data中的数据，vue会
+                //默认监听到数据的改动，自动把最新的数据，应用到页面上；
+                //5.当我们意识到第4步的时候，证明已经vue入门，我们更多的是在进行VM 中 model数据
+                //的操作，同时，在操作model数据的时候，指定的业务逻辑操作；
+                var car = {id: this.id, name: this.name, ctime: new Date()};
+                this.list.push(car);
+                this.name = this.id = '';
+            },
+            del(id) {
+                //分析：根据ID删除数据
+                //1.如何根据id，找到要删除这一项的索引
+                //2.如果找到了，直接调用 数组的 splice方法
+                /*this.list.some((item,i)=>{
+                  if(item.id==id){
+                      this.list.splice(i,1)
+                      return ture;
+                  }
+              })
+*/
+                var index = this.list.findIndex(item => {
+                    if (item.id == id) {
+                        return true;
+                    }
+                })
+                this.list.splice(品牌列表案例, 1);
+            },
+            search(keywords) {
+                /*var newlist = [];
+                this.list.forEach(item => {
+                    if (item.name.indexOf(keywords) != -1) {
+                        newlist.push(item);
+                    }
+                })
+                return newlist;*/
+               return this.list.filter(item=>{
+                    /*在es6中 为字符串提供了一个新方法叫做，string.prototype.inlcudes('要包含
+                    的字符串')*/
+                    /*contains*/
+                   /*如果包含 返回true 如果不包含 返回false*/
+                    if(item.name.includes(keywords)){
+                        return item
+                    }
+                })
+            }
+        }
+
+    })
+</script>
+</html>

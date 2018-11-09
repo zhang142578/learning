@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加品牌</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <label for="">
+                id:
+                <input type="text" class="form-control" v-model="id">
+            </label>
+            <label for="">
+                Name:
+                <input class="form-control" type="text" v-model="name" @keyup.enter="add">
+            </label>
+            <input type="button" value="添加" class="btn btn-primary" @click="add">
+            <label for="">
+                搜索名称关键字：
+                <input class="form-control" placeholder="搜索名称关键字" type="text" v-model="keywords" v-focus v-color="'blue'">
+            </label>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Ctime</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--之前 v-for中的数据，都是从data上的list中直接渲染过来的-->
+        <!--现在， 我们自定义一个search方法，同时，把所有的关键字，通过传参的形式，传递给了
+        search方法-->
+        <!--在search方法内部，通过执行 for 循环 把所有符合 搜索关键字，通过传参的方式
+        保存到一个新的数组中 返回，-->
+        <tr v-for="item in search(keywords)" :key="item.id" >
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.ctime | dateformat}}</td>
+            <td><a href="" @click.prevent="del(item.id)" v-fontweight="900">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <p  v-fontsize="50">{{time}}</p>
+</div>
+</body>
+<script>
+    /*全局的过滤器，进行时间的格式化*/
+    Vue.filter('dateformat',function (datestr,pattern="") {
+        //根据给定的时间字符串，得到特定的时间
+        var dt=new Date(datestr)
+        var y=dt.getFullYear()
+        var m=dt.getMonth()+1
+        var d=dt.getDate()
+
+        if(pattern.toLowerCase()=="yyyy-mm-dd"){
+            return `${y}-${m}-${d}`
+        }
+        else{
+            var hh=dt.getHours()
+            var mm=dt.getMinutes()
+            var ss=dt.getSeconds()
+            return`${y}-${m}-${d} ${hh}:${mm}:${ss}`
+        }
+    })
+    /*使用Vue.directive() 定义全局的指令*/
+    /*其中：参数1：指令的名称，注意，在定义的时候，指令的名称面前，不需要加v-前缀*/
+    /*但是：在调用的时候，必须 在指令名称前 加上v-前缀进行调用*/
+    /*参数2：是一个对象，是个对象身上，有一些指令相关的函数，这些函数可以在特定的阶段，执行相关的操作
+    * 相关的操作*/
+    Vue.directive('focus',{
+        bind:function (el) {//每当指令绑定到元素上的时候，会立即执行bind函数 只执行一次
+            //每个函数中 第一个参数 永远是el, 表示被绑定了指令的那个元素。el参数是一个原生的JS对象 （dom对象）
+            // 在元素 刚绑定指令的时候， 还没有插入到DOM中去。 这时候。调用focus方法还没用
+            //因为 一个元素 只有插入DOM之后，才能获取焦点
+            // el.focus();
+        },
+        inserted:function (el) {
+            //inserted表示插入元素刚插入到dom中的时候【出发一次】
+            el.focus()
+            //和JS有关的操作 最好放到inserted中 防止JS行为不生效
+        },
+        updated:function(){//当V NODE （DOM节点）更新的时候 会执行updated，可能会触发多次
+
+        }
+
+    })
+    Vue.directive('color',{
+        //样式，只要通过指令绑定给了元素，不管这个元素有没有被插入到页面中去， 这个元素肯定有了一个内联的样式
+
+        bind:function (el,binding) {
+            el.style.color=binding.value
+            //和样式相关的操作 一般可以在 bind 中执行
+            console.log(binding.name)
+            console.log(binding.value)
+            console.log(binding.expression)
+        }
+    })
+    var vm=new Vue({
+        el: '#app',
+        data: {
+            time:new Date(),
+            name: '',
+            id: '',
+            keywords: '',
+            list: [
+                {id: 1, name: "奔驰", ctime: new Date()},
+                {id: 2, name: "宝马", ctime: new Date()}
+            ]
+        },
+        methods: {
+            add() {
+                //分析：
+                //1.要获取到id和name，直接从date上获取
+                //2.组织出一个对象
+                //3.把这对象，调用数组的相关方法 添加到当前data上的list中
+                //4.注意：在vue中已经实现 了数据的双向绑定，每当我们修改了data中的数据，vue会
+                //默认监听到数据的改动，自动把最新的数据，应用到页面上；
+                //5.当我们意识到第4步的时候，证明已经vue入门，我们更多的是在进行VM 中 model数据
+                //的操作，同时，在操作model数据的时候，指定的业务逻辑操作；
+                var car = {id: this.id, name: this.name, ctime: new Date()};
+                this.list.push(car);
+                this.name = this.id = '';
+            },
+            del(id) {
+                //分析：根据ID删除数据
+                //1.如何根据id，找到要删除这一项的索引
+                //2.如果找到了，直接调用 数组的 splice方法
+                /*this.list.some((item,i)=>{
+                  if(item.id==id){
+                      this.list.splice(i,1)
+                      return ture;
+                  }
+              })
+*/
+                var index = this.list.findIndex(item => {
+                    if (item.id == id) {
+                        return true;
+                    }
+                })
+                this.list.splice(index, 1);
+            },
+            search(keywords) {
+                /*var newlist = [];
+                this.list.forEach(item => {
+                    if (item.name.indexOf(keywords) != -1) {
+                        newlist.push(item);
+                    }
+                })
+                return newlist;*/
+                return this.list.filter(item=>{
+                    /*在es6中 为字符串提供了一个新方法叫做，string.prototype.inlcudes('要包含
+                    的字符串')*/
+                    /*contains*/
+                    /*如果包含 返回true 如果不包含 返回false*/
+                    if(item.name.includes(keywords)){
+                        return item
+                    }
+                })
+            }
+        },
+        directives:{//创建私有指令
+            'fontweight':{//设置字体粗细
+                bind:function(el,binding){
+                    el.style.fontWeight=binding.value;
+                }
+            },
+            /*自定义指令的简写形式*/
+            'fontsize':function (el, binding) {//这个function等同于 写道bind 和 update钩子函数中
+                el.style.fontSize=parseInt(binding.value)+"px"
+                console.log(binding.value)
+                console.log(el)
+            }
+        }
+
+    })
+</script>
+</html>
+
+
+<!--过滤器调用时候的格式 {{name|过滤器的名称}}-->

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="修改msg" @click="msg='No'">
+    <h3 id="h3">{{msg}}</h3>
+</div>
+</body>
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            msg:'OK'
+        },
+        methods:{
+            show(){
+                console.log("执行了show方法");
+            }
+        },
+        beforeCreate(){//表示刚初始化了一个Vue空的实例对象，这时候，这个对象身上，只有默认的
+            //一些生命周期函数和默认的事件，其它的东西都未创建
+            //在beforeCreate生命周期函数执行的时候，data和methods中的数据都还没有初始化
+            /*console.log(this.msg)
+            this.show()*/
+            //this.msg  undefined
+            /*cannot find prototype show*/
+        },
+        created(){//第二个生命周期函数
+           // console.log(this.msg);
+           // this.show();
+            //在created中， data和methods都已经初始化好了
+            //如果要调用methods中的方法 或者 data中的数据 最早只能在created中操作
+        },
+        beforeMount(){//第三个生命周期函数 表示模板已经加载完成。但是还没有渲染到页面上
+           // console.log(document.getElementById("h3").innerText)// {{msg}}
+            //在beforeMount执行的时候，页面中的元素。还没有真正替换过来。值是之前写的一些模板字符串
+        },
+        mounted(){//第四个生命周期函数 表示 内存中的模板已经真是的挂载到了页面中，用户
+            //已经可以看到渲染之后的页面
+           // console.log(document.getElementById("h3").innerText)
+        },
+        beforeUpdate(){//这时候， 表示 我们的界面还有没有更新【数据 已经被更新了】
+           // console.log(document.getElementById("h3").innerText)
+           // console.log('data中的数据是'+this.msg)//当执行beforeUpdate的时候 页面中显示的
+            //数据还是旧的，此时 Data数据是最新的 页面尚未和最新的数据保持同步
+        },
+        updated(){
+            console.log(document.getElementById("h3").innerText)
+            console.log('data中的数据是'+this.msg)
+        }
+    })
+</script>
+</html>
