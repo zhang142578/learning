@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+<!--需求：点击按钮让H3显示 再点击让H3隐藏-->
+<div id="app">
+    <input type="button" value="toggle" @click="flag=!flag">
+<h3 v-if="flag">这是一个H3</h3>
+</div>
+</body>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            flag:false
+        },
+        methods:{
+
+        }
+    })
+</script>
+</html>

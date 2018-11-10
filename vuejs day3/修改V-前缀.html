@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<!--自定义两组样式来控制transition内部的元素实现动画-->
+<style>
+    /* v-enter [这是一个时间点] 进入之前元素的起始状态，此时还没有开始进入*/
+    /* v-leave-to [] 动画离开之后 离开的终止状态 此时，元素动画已经结束了*/
+    .v-enter,
+    .v-leave-to{
+        opacity:0;
+        transform: translateX(80px);
+    }
+    /*v-enter-active 入场动画的时间段*/
+    /* v-leave-active 出场动画的时间段*/
+    .v-enter-active,
+    .v-leave-active{
+        transition: all 0.4s ease;
+    }
+
+
+    .my-enter,
+    .my-leave-to{
+        opacity:0;
+        transform: translateY(80px);
+    }
+
+    .my-enter-active,
+    .my-leave-active{
+        transition: all 0.4s ease;
+    }
+</style>
+<body>
+<!--需求：点击按钮让H3显示 再点击让H3隐藏-->
+<div id="app">
+    <input type="button" value="toggle" @click="flag=!flag">
+    <!--使用transition 元素 把 需要被动画控制的元素包裹起来-->
+    <!--transition元素是vue官方提供的-->
+<transition>
+    <h3 v-if="flag">这是一个H3</h3>
+</transition>
+
+
+    <hr>
+
+    <input type="button" value="toggle" @click="flag2=!flag2">
+    <!--使用transition 元素 把 需要被动画控制的元素包裹起来-->
+    <!--transition元素是vue官方提供的-->
+    <transition name="my">
+        <h6 v-if="flag2">这是一个H6</h6>
+    </transition>
+</div>
+</body>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            flag:false,
+            flag2:false
+        },
+        methods:{
+
+        }
+    })
+</script>
+</html>

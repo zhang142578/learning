@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<style>
+    .ball{
+        width:20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: red;
+    }
+</style>
+<body>
+<!--需求：点击按钮让H3显示 再点击让H3隐藏-->
+<div id="app">
+    <input type="button" value="toggle" @click="flag=!flag">
+
+<transition
+@before-enter="beforeEnter"
+    @enter="enter"
+@after-enter="afterEnter"
+>
+    <div v-if="flag" class="ball"></div>
+</transition>
+</div>
+</body>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            flag:false
+        },
+        methods:{
+            /*第一个参数el 表示要执行动画的那个DOM元素，是个原生的JS DOM对象*/
+            /*可以认为 el是通过document.getElementById() 获取的*/
+            beforeEnter(el){
+                //表示动画入场之前 此时动画尚未开始 可以在beforeEnter中 设置元素开始动画之前的起始样式
+                el.style.transform="translate(0,0)"
+            },
+            enter(el,done){
+                //el.offsetWidth没有实际的作用，但是，如果不写，出不来动画效果；
+                //可以认为，el.offsetWidth 会强制动画刷新
+                el.offsetWidth
+                //动画开始之后的样式，可以设置小球完成动画之后的 结束状态
+                el.style.transform="translate(150px,450px)";
+                el.style.transition="all 0.6s ease"
+                //这里的done 其实就是 afterEnter这个函数，也就是说，done是afterEnter函数的引用
+                done()
+            },
+            afterEnter(el){
+                //动画完成之后
+                this.flag=!this.flag
+            }
+        }
+    })
+</script>
+</html>
