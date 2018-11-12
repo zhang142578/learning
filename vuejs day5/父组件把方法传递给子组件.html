@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"> </script>
+</head>
+<body>
+<div id="app">
+    <!--父组件向子组件传递方法，使用的是事件绑定机制-->
+    <com2 v-on:abcac="show"></com2>
+</div>
+<template id="tmp1">
+    <div>
+        <input type="button" value="点击" @click="myclick">
+        <h1>这是子组件</h1>
+    </div>
+</template>
+</body>
+<script>
+    var com2={
+        template: "#tmp1",
+        data:function(){
+            return {
+                sonmsg:{age:6,name:"小头儿子"}
+            }
+        },
+        methods:{
+            myclick(){
+                this.$emit('abcac',this.sonmsg)
+            }
+        }
+    }
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            datamsgFromSon:null
+        },
+        methods:{
+          show(data){
+              //console.log('调用了父组件的show方法'+data)
+              console.log(data)
+              this.datamsgFromSon=data
+          }
+        },
+        components:{
+            com2:com2
+        }
+    })
+</script>
+</html>
