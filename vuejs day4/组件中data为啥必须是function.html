@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+    <couter></couter>
+    <couter></couter>
+    <couter></couter>
+</div>
+<template id="tmp1">
+   <div>
+       <input type="button" value="+1" @click="increment">
+       <h3>{{count}}</h3>
+   </div>
+</template>
+</body>
+<script>
+    //这是一个计数器组件，身上有个按钮，每当点击按钮，data中的count值加1
+    var dataobj={count:0}
+    Vue.component('couter',{
+        template:"#tmp1",
+        data:function () {
+           /* return {
+                count :0
+            };*/
+           return dataobj;
+           //对象是引入类型，如果引入外部的对象，当页面上有多个组件的时候 数据混乱
+            //返回一个内部对象是为了 独立每个组件的data
+        },
+        methods:{
+            increment(){
+                this.count++;
+            }
+        }
+    })
+    var vm=new Vue({
+        el:"#app"
+    })
+</script>
+</html>

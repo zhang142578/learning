@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+   <!--<mycom1></mycom1>-->
+    <my-com1></my-com1>
+</div>
+</body>
+<script>
+    /*var com1=Vue.extend({
+        template:"<h3>这是使用Vue.extend创建的组件</h3>"//通过template属性，指定了组件要展示的HTML结构
+    })*/
+    //Vue.component('mycom1',com1)
+    /*如果使用驼峰命名 则引用组件的时候，需要把大写的驼峰改为小写的字母，同时 两个单词之间 用-连接*/
+    /*第一个参数 组件的名称，将来在引用组件的时候就是通过这个名称来当做标签进行引用*/
+    /*第二个参数 Vue.extend创建的组件，其中template 就是组件将来要展示的HTML结构*/
+    Vue.component('myCom1',Vue.extend({
+        template:"<h3>这是使用Vue.extend创建的组件</h3>"//通过template属性，指定了组件要展示的HTML结构
+    }))
+    var vm=new Vue({
+        el:'#app',
+        data:{
+
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+<mycom2></mycom2>
+</div>
+</body>
+<script>
+    Vue.component('mycom2',{
+        //不论是哪种方式创建出来的组件，组件的template属性指向的模版内容，必须有且只能有唯一的一个根元素
+        template: '<div><h3>这是直接使用Vue.component创建出来的组件</h3><span>123</span></div>'
+    })
+    var vm=new Vue({
+        el:"#app"
+    })
+</script>
+</html>

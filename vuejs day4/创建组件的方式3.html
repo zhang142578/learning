@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--在被控制的#app 外面 使用 template元素 定义 组件的html结构-->
+    <mycom3></mycom3>
+</div>
+<div id="app2">
+    <login></login>
+</div>
+<template id="tmpl">
+    <div>
+        <h1>这是通过template元素在外部定义的组件结构</h1>
+    </div>
+</template>
+<template id="tmpl2">
+    <div>
+        <h1>这是私有组件</h1>
+    </div>
+</template>
+</body>
+<script>
+    Vue.component('mycom3',{
+        template:'#tmpl'
+    })
+    var vm=new Vue({
+        el:"#app"
+    })
+    /*通过 components定义一个私有组件*/
+    var vm2=new Vue({
+        el:"#app2",
+        components:{
+            login:{
+                template:'#tmpl2'
+            }
+
+        }
+    })
+</script>
+</html>
