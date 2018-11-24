@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+    <login></login>
+</div>
+<template id="tmp">
+    <div>
+       <h1> 这是登录组件</h1>
+    </div>
+</template>
+</body>
+<script>
+    var login={
+        template:"#tmp"
+    }
+    var vm=new Vue({
+        el:"#app",
+        data:{
+
+        },
+        components:{
+            login
+        }
+    })
+</script>
+</html>
