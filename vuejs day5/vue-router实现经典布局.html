@@ -2,9 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
+<script src="js/vue.js"></script>
+<script src="js/vue-router.js"></script>
 <body>
-$END$
+<div id="app">
+    <router-view name="header"></router-view>
+    <router-view name="left"></router-view>
+    <router-view name="main"></router-view>
+</div>
 </body>
+<script>
+    var header={
+        template:"<h1 class='header'>Header 头部区域</h1>"
+    }
+    var leftBox={
+        template:"<h1  class='left'>Left 侧边栏区域</h1>"
+    }
+    var mainBox={
+        template:"<h1  class='main'>mainBox 主体区域</h1>"
+    }
+    var route=new VueRouter({
+        routes:[
+           /* {path:"/",component:header},
+            {path:"/leftBox",component:leftBox},
+            {path:"/mainBox",component:mainBox}*/
+
+            {path:"/",components:{
+                 default:   header,
+                    left:leftBox,
+                    main:mainBox
+                }},
+        ]
+    })
+    var vm=new Vue({
+        el:"#app",
+        router:route
+    })
+</script>
 </html>

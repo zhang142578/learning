@@ -2,9 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <style>
+        .router-link-active{
+            color:red;
+            font-weight: 800;
+            font-style: italic;
+            text-decoration: underline;
+            background-color: green;
+        }
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform: translateX(140px);
+        }
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.5s ease-in-out;
+        }
+
+    </style>
 </head>
+<script src="js/vue.js"></script>
+
+<script src="js/vue-router.js"></script>
+<!--1 安装路由模块-->
 <body>
-$END$
+<div id="app">
+   <router-link to="/login" tag="span">登录</router-link>
+   <router-link to="/register">注册</router-link>
+    <!-- vue-router 提供的元素， 专门用来 当做占位符的 将来 路由规则 匹配到的组件 就会展示到这个router-link当中去 -->
+   <transition mode="out-in">
+       <router-view></router-view>
+   </transition>
+</div>
 </body>
+<script>
+    var login={
+        template:"<h1>登陆组件</h1>"
+    }
+    var register={
+        template:"<h1>注册组件</h1>"
+    }
+    /*2.创建一个路由对象，当导入 VUE-ROUTER 包之后，再window全局对象中，就有了一个路由的构造函数 叫做VueRouter*/
+    //再 new路由对象的时候 可以 为 构造函数，传递一个配置函数
+    var routerobj=new VueRouter({
+       // route //这个表示【路由匹配规则】
+        routes:[
+            //每个路由规则都是一个对象，这个规则对象 身上 有两个必须的属性：
+            //属性1 是path 表示监听哪个路由链接地址
+            //属性2 是 component 表示 如果 路由是前面匹配到的path 则展示 component 属性对应的那个组件
+            {path:'/',redirect:'/login'},//这里的redirect和NODE中的重定向是两码事
+            {path:'/login',component:login},
+            {path:'/register',component:register}
+        ]
+    })
+    var vm=new Vue({
+        el:"#app",
+        data:{
+
+        },
+        methods:{
+
+        },
+        router:routerobj
+    })
+</script>
 </html>

@@ -2,9 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
+<script src="js/vue.js"></script>
 <body>
-$END$
+<div id="app">
+    <input type="button" value="获取元素" @click="getElement">
+    <h3 id="myh3" ref="myh3">今天天气真的不好</h3>
+    <login ref="login"></login>
+</div>
 </body>
+<script>
+    // ref 是 reference
+    var login={
+        template:"<h1>登陆组件</h1>",
+        data(){
+            return {
+                msg:"son msg"
+            }
+        },
+        methods:{
+            show(){
+                console.log("调用了子组件的方法")
+            }
+        }
+    }
+    var vm=new Vue({
+        el:"#app",
+        data:{},
+        methods:{
+            getElement(){
+                console.log(this.$refs.myh3.innerHTML)
+                console.log(this.$refs.login.msg)
+                this.$refs.login.show()
+            }
+        },
+        components:{
+            login
+        }
+    })
+</script>
 </html>
